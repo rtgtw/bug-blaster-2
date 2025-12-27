@@ -1,6 +1,6 @@
 import React, {useState}from 'react';
 
-export default function TicketForm() {
+export default function TicketForm({dispatch}) {
 
 //useState function returns an array with two values, value,CallbackFunction, so we destructure it with const [value1, callbackFN] = useState();
 
@@ -35,8 +35,7 @@ export default function TicketForm() {
 
         console.log("Entered, Form Submitted");
 
-        console.log(e); 
-
+        //These are coming from the states
         const ticketData = {
             id: new Date().toISOString(),
             "title": title,
@@ -44,14 +43,19 @@ export default function TicketForm() {
             priority
         };
 
-        console.log(ticketData);
+        dispatch({
+            type:"ADD_TICKET",
+            payload:ticketData
+        });
+
+        // console.log(ticketData);
 
         
         //This stops the page from refreshing
         e.preventDefault();
 
         // //Immediately clear the form when they hit submit
-        // clearForm();
+        clearForm();
 
 
          

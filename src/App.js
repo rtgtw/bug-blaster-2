@@ -8,6 +8,13 @@ import TicketForm from './components/TicketForm.js';
 
 
 function App() {
+
+
+  const initialState = {}
+
+
+
+
   return (
     <div className="App">
 

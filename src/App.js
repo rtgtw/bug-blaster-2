@@ -5,6 +5,7 @@ import './components/TicketForm.js';
 import TicketForm from './components/TicketForm.js';
 import { useReducer } from 'react';
 import ticketReducer from './reducers/ticketReducer.js';
+import TicketList from './components/TicketList.js';
 
 
 
@@ -13,7 +14,8 @@ function App() {
 
   const initialState = {
 
-    tickets: []
+    tickets: [],
+    editingTicket: null
 
   };
 
@@ -32,10 +34,18 @@ function App() {
       <div className='container'>
         <h1>Bug Blaster</h1>
 
-        <TicketForm dispatch={dispatch}></TicketForm>
+        <TicketForm dispatch={dispatch} editingTicket={state.editingTicket}></TicketForm>
 
 
-
+        {
+          //Conditional renering, we only want to show the ticket list IF we have tickets
+          state.tickets.length > 0 && 
+          
+          (<div className='results'>
+          <h2>All Tickets</h2>
+          <TicketList tickets={state.tickets} dispatch={dispatch}/>
+          </div>)
+        }
 
       </div>
 

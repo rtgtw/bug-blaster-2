@@ -1,6 +1,6 @@
-import React, {useState}from 'react';
+import React, {useState, useEffect}from 'react';
 
-export default function TicketForm({dispatch}) {
+export default function TicketForm({dispatch, editingTicket}) {
 
 //useState function returns an array with two values, value,CallbackFunction, so we destructure it with const [value1, callbackFN] = useState();
 
@@ -9,6 +9,21 @@ export default function TicketForm({dispatch}) {
     const [priority, setPriority] = useState('1');
 
 
+    useEffect(() => {
+        
+       
+
+        if(editingTicket){
+
+            setTitle(editingTicket.title);
+            setDescription(editingTicket.description);
+            setPriority(editingTicket.priority);
+        }else{
+        
+            clearForm();
+        }
+
+    }, [editingTicket]);
 
 
     const priorityLabels = {
@@ -33,18 +48,20 @@ export default function TicketForm({dispatch}) {
     //passes in the event of the submitted form to use as well so we need to create a parameter e to extract that info
     const handleSubmit = (e) => {
 
-        console.log("Entered, Form Submitted");
+    
+
+        console.log(editingTicket);
 
         //These are coming from the states
         const ticketData = {
-            id: new Date().toISOString(),
+            id: editingTicket ? editingTicket.id : new Date().toISOString(),
             "title": title,
             description,
             priority
         };
 
         dispatch({
-            type:"ADD_TICKET",
+            type: editingTicket ? "UPDATE_TICKET" : "ADD_TICKET",
             payload:ticketData
         });
 
@@ -73,7 +90,6 @@ export default function TicketForm({dispatch}) {
         setDescription(e.target.value);
     }
     const handleLabel = (e) => {
-        console.log(e.target.value);
         setPriority(e.target.value);
     }
 
@@ -99,7 +115,11 @@ export default function TicketForm({dispatch}) {
                 <legend>Priority</legend>
 
 
-                {/* Detailed explination on the bottom */}
+                {/* Detailed explination on the bottom 
+                key:value
+                value:label
+                
+                slightly confusing but value in this case represents 1,2,3..etc*/}
                 {
                     Object.entries(priorityLabels).map(([value, label]) => {
                         return (<label key={value} className='priority-label'>

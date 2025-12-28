@@ -13,7 +13,21 @@ export default function TicketItem({ticket, dispatch}){
         3:"priority-high"
     }
 
+    const handleDelete = () => {
+        console.log(`Deleted `, ticket)
+        dispatch({type:"DELETE_TICKET", payload: {id}});
+    }
 
+    const handleEditing = () => {
+
+        dispatch({
+            type:"SET_EDITING_TICKET",
+            payload: ticket
+        });
+    }
+
+
+  
 return (<>
 
         <div className='ticket-item'> 
@@ -21,6 +35,8 @@ return (<>
 
             <h3>{title}</h3>
             <p>{description}</p>
+            <button onClick={handleDelete} className='button'> Delete</button>
+            <button onClick={handleEditing} className='button'> Edit </button>
 
 
 

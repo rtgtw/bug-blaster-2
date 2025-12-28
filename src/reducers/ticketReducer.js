@@ -5,18 +5,42 @@ export default function ticketReducer(state, action){
 
 
 
-    console.log({...state, tickets: [...state.tickets, action.payload] });
+    // console.log({...state, tickets: [...state.tickets, action.payload] });
 
     switch(action.type){
 
         case "ADD_TICKET":
             return {...state, tickets: [...state.tickets, action.payload] };
 
-        case "UPDTAE_TICKET":
+        case "UPDATE_TICKET":
+            console.log("Entered upate ticket");
             return {...state, tickets: state.tickets.map( ticket => ticket.id === action.payload.id ? action.payload : ticket )};
 
         case "DELETE_TICKET":
-            return {...state, tickets: state.tickets.filter(ticket => ticket.id != action.payload.id )};
+
+
+            if(state.editingTicket && state.editingTicket.id === action.payload.id){
+                 return {...state, tickets: state.tickets.filter(ticket => ticket.id != action.payload.id ), editingTicket:null};
+            }else{
+                 return {...state, tickets: state.tickets.filter(ticket => ticket.id != action.payload.id )};
+            }
+
+
+           
+
+
+
+        case "SET_EDITING_TICKET":        
+        console.log("Entered set editing ticket");
+            return{
+                ...state, editingTicket:action.payload
+            }
+            
+        
+        case "CLEAR_EDITING_TICKET":
+            return{
+                ...state, editingTicket:null
+            }
 
 
         default:
